@@ -31,7 +31,6 @@ if($result->num_rows >0){
 		echo "Syllabus Name: " . $row["syllabus_name"]. "<br>";
 		echo "Syllabus Size: " . $row["syllabus_size"]. "<br>";
 		echo "Syllabus Type: " . $row["syllabus_type"]. "<br>";
-		echo "Syllabus: " . $row["syllabus"]. "<br>";
 		
 		$mhc_prerequisites = "";
 		if($row["prereq101"]==1){

@@ -3,7 +3,7 @@
 
 <body>
 
-<form action="confirmation_course_added.php" method="post" enctype="multipart/form-data">
+<form name = "newCourse" action="confirmation_course_added.php" onsubmit = "return checkform()" method="post" enctype="multipart/form-data">
 	<font size="6">Add a New Course Evaluation</font>
 	<br><br>
 	
@@ -15,7 +15,7 @@
 		<input type="text" name="courseNumber" required >
 	<br><br>
 	
-	Number of Credits: 
+	Number of Credits: <strong><font color="red">*</font></strong>
 		<input type="radio" name = "credit" value= "2" required>2 Credits
 		<input type="radio" name = "credit" value= "4" required>4 Credits
 		<?php 
@@ -94,6 +94,68 @@
 	<input type="submit" name = "form_submit" value="Save">
 	
 </form>
+
+<script>
+	function checkform()
+	{
+		if(isNaN(newCourse.elements["month"].value)){
+			window.alert("Month must be an integer value.");
+			return false;
+		}
+		
+		var monthInt = parseInt(newCourse.elements["month"].value);
+		if(monthInt<1 || monthInt>12){
+			window.alert("Month must be between 1 and 12.");
+			return false;
+		}
+
+		if(isNaN(newCourse.elements["day"].value)){
+			window.alert("Day must be an integer value.");
+			return false;
+		}
+		
+		var dayInt = parseInt(newCourse.elements["day"].value);
+		if(dayInt<1 || dayInt>31){
+			window.alert("Day must be between 1 and 31.");
+			return false;
+		}
+		
+		if(isNaN(newCourse.elements["year"].value)){
+			window.alert("Year must be an integer value.");
+			return false;
+		}
+		
+		var curDate = new Date();
+		var curYear = curDate.getFullYear();
+		var yearInt = parseInt(newCourse.elements["year"].value);
+		if(yearInt<curYear-2 || yearInt>curYear){
+			window.alert("Year must be within the past two years.");
+			return false;
+		}
+		fileName = newCourse.elements["userfile"].value;
+		fileType = fileName.substring(fileName.lastIndexOf(".")+1, fileName.length);
+		if(fileType != "pdf"){
+			window.alert("The file must be a pdf.");
+			return false;
+		}
+		var request;
+		if(window.XMLHttpRequest){
+			request = new XMLHttpRequest();
+		}
+		else{
+			request = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		request.open('GET', newCourse.elements["website"].value, false);
+		request.send();
+		if (request.status === 404) {
+			window.alert("Please enter a valid url");
+			return false
+		}
+		request.abort();
+		window.alert("everything is fine!");
+		return true;
+	}
+</script>
 
 <br>
 
