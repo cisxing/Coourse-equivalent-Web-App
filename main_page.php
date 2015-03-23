@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 } 
 
 $sql = "SELECT name, number, credits, institution,
-mhc_course, syllabus, syllabus_type, syllabus_size, syllabus_name,
+mhc_course,
 link, prereq101, prereq201, prereq211, prereq221, prereq_math,
 prof_prereq, notes, day, month, year, professor, approved FROM mhc_equiv_courses";
 $result = $conn->query($sql);
@@ -28,9 +28,6 @@ if($result->num_rows >0){
 		echo "Number of Credits: " . $row["credits"]."<br>";
 		echo "MHC Equivalent Course: " . $row["mhc_course"] . "<br>";
 		echo "Course Website: " . $row["link"]. "<br>";
-		echo "Syllabus Name: " . $row["syllabus_name"]. "<br>";
-		echo "Syllabus Size: " . $row["syllabus_size"]. "<br>";
-		echo "Syllabus Type: " . $row["syllabus_type"]. "<br>";
 		
 		$mhc_prerequisites = "";
 		if($row["prereq101"]==1){

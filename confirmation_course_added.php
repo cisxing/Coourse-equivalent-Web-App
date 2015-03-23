@@ -19,6 +19,13 @@ $username = "root";
 $password = "pass123";
 $dbname = "courseEquivalentDB";
 
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} 
+
 $insert_into_table = 1;
 
 $name = fix_input($_POST["courseTitle"]);
@@ -51,6 +58,25 @@ if($valid_mhc_course != true){
 }
 
 //get pdf
+
+$num_pdfs = count($_FILES['userfile']['name']);
+echo "number of pdfs is: " . $num_pdfs; 
+$syllabus = [];
+$syllabus_size = [];
+$syllabus_type = [];
+$syllabus_name = [];
+for($i=0; $i<$num_pdfs; $i++){
+	$tmpName  = $_FILES['userfile']['tmp_name'][$i];
+	$fp = fopen($tmpName, 'r');
+	$syllabus_cur = fread($fp, filesize($tmpName));
+	fclose($fp);
+	$syllabus[] = $syllabus_cur;
+	$syllabus_type[] = $_FILES['userfile']['type'][$i];
+	$syllabus_size[] = $_FILES['userfile']['size'][$i];
+	$syllabus_name[] = fix_input($_FILES['userfile']['name'][$i]);
+}
+
+/**
 $tmpName  = $_FILES['userfile']['tmp_name'];
 $fp = fopen($tmpName, 'r');
 $syllabus = fread($fp, filesize($tmpName));
@@ -61,9 +87,9 @@ $syllabus_size = $_FILES['userfile']['size'];
 $syllabus_name = fix_input($_FILES['userfile']['name']);
 if($syllabus_type != "application/pdf"){
 	$insert_into_table = 0;
-}
+}*/
 
-$link = fix_input($_POST["website"]);
+$link = $_POST["website"];
 $prereq101 = false;
 if(isset($_POST["prereq101"]) && $_POST["prereq101"]=="true"){
 	$prereq101 = true;
@@ -108,45 +134,86 @@ if(isset($_POST["approved"]) && $_POST["approved"]=="true"){
 	$approved = true;
 }
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
-
 //enter the data into the database
+
 if($insert_into_table===1){
-	/**$sql = "INSERT INTO mhc_equiv_courses (name, number, credits, institution,
-	mhc_course, syllabus, syllabus_type, syllabus_size, syllabus_name,
-	link, prereq101, prereq201, prereq211, prereq221, prereq_math,
+
+	$sql= "SELECT cur_val FROM counters WHERE id = 1";
+	
+	$result = $conn->query($sql);
+	
+	$row=$result->fetch_assoc();
+	
+	$cur_value = $row["cur_val"]+1;
+	
+	$sql = "UPDATE counters SET cur_val = " . $cur_value . " where id = 1";
+	makeSqlQuery($conn, $sql, "counters updated");
+	
+	$sql = "INSERT INTO mhc_equiv_courses (id, name, number, credits, institution,
+	mhc_course, prereq101, prereq201, prereq211, prereq221, prereq_math,
 	prof_prereq, notes, day, month, year, professor, approved)
-	Values ('" . $name . "', '" . $number . "', '" . $credits . "', '" .
-	$institution . "', '" . $mhc_course . "', '" . $syllabus . "', '" .
-	$syllabus_type . "', '" . $syllabus_size . "', '" . $syllabus_name
-	. "', '" . $link . "', '" . $prereq101 . "', '" . $prereq201 . "', '" .
+	Values (".$cur_value. ",'" . $name . "', '" . $number . "', '" . $credits . "', '" .
+	$institution . "', '" . $mhc_course . "', '"
+	 . $prereq101 . "', '" . $prereq201 . "', '" .
 	$prereq211 . "', '" . $prereq221 . "', '" . $prereq_math . "', '" .
 	$prof_prereq . "', '" . $notes . "', '" . $day . "', '" . $month . "', '" .
-	$year . "', '" . $professor . "', '" . $approved . "')";*/
+	$year . "', '" . $professor . "', '" . $approved . "')";
+	
+	makeSqlQuery($conn, $sql, "new class created");
+	
+	for($j = 0; $j<$num_pdfs; $j++){
+		$pdf_server_name = "C:/Users/Sarah Read/Desktop/Independent Study/pdf_files/". $cur_value . $j . ".pdf";
+		
+		$myfile = fopen($pdf_server_name, "w");
+		fwrite($myfile, $syllabus[$j]);
+		fclose($myfile);
+		
+		//save to database
+		$sql = "INSERT INTO mhc_course_pdfs (
+			class_id,
+			syllabus,
+			syllabus_type,
+			syllabus_size,
+			syllabus_name) Values (" . $cur_value . ", '". $pdf_server_name . "', '" .
+			$syllabus_type[$j] . "', " . $syllabus_size[$j] . ", '" . 
+			$syllabus_name[$j] . "')";
+		
+		makeSqlQuery($conn, $sql, "pdf added");
+	}
+	
+	$csv_links = str_getcsv($link);
+	for($k = 0; $k<count($csv_links); $k++){
+		$sql = "INSERT INTO mhc_course_links (
+			class_id,
+			link) Values (" . $cur_value . ", '". $csv_links[$k] . "')";
+		
+		makeSqlQuery($conn, $sql, "pdf added");
+	}
+	
+	/**
+	$pdf_index = 
+	
+	echo "The last inserted index is: " . $pdf_index;
+	
 	$sql = mysqli_prepare($conn, "INSERT INTO mhc_equiv_courses (name, number, credits, institution,
-	mhc_course, syllabus, syllabus_type, syllabus_size, syllabus_name,
+	mhc_course, pdfs,
 	link, prereq101, prereq201, prereq211, prereq221, prereq_math,
 	prof_prereq, notes, day, month, year, professor, approved)
 	Values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 	
-	mysqli_stmt_bind_param($sql, 'ssissbsissiiiiissiiisi', $name, $number, $credits, $institution,
-		$mhc_course, $syllabus, $syllabus_type, $syllabus_size, $syllabus_name,
+	mysqli_stmt_bind_param($sql, 'ssissssiiiiissiiisi', $name, $number, $credits, 
+		$institution, $mhc_course, $pdf_index,
 		$link, $prereq101, $prereq201, $prereq211, $prereq221, $prereq_math,
 		$prof_prereq, $notes, $day, $month, $year, $professor, $approved);
 	
 	mysqli_stmt_execute($sql);
 	
-	mysqli_stmt_close($sql);
+	mysqli_stmt_close($sql);*/
 	
 }
 else{
 	echo "wrong type";
-}	
+}
 
 $conn->close();
 

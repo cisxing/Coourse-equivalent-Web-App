@@ -51,8 +51,8 @@
 	<br><br>
 	
 	Upload Syllabus: <strong><font color="red">*</font></strong> 
-		<input type="hidden" name="MAX_FILE_SIZE" value="2000000">
-		<input name="userfile" type="file" id="userfile" required> 
+		<input type="hidden" name="MAX_FILE_SIZE" value="5000000">
+		<input name="userfile[]" type="file" id="userfile" multiple="multiple" required>
 	<br><br>
 	
 	Link to Course Website: <strong><font color="red">*</font></strong> 
@@ -139,7 +139,7 @@
 			return false;
 		}
 		var request;
-		if(window.XMLHttpRequest){
+		/**if(window.XMLHttpRequest){
 			request = new XMLHttpRequest();
 		}
 		else{
@@ -153,7 +153,7 @@
 		}
 		request.abort();
 		window.alert("everything is fine!");
-		return true;
+		return true;*/
 	}
 </script>
 
