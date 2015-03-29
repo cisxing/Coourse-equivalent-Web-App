@@ -1,0 +1,18 @@
+body{
+	background-color:  #edf1f3;
+}
+
+h1{
+	color: #212438;
+	text-align: center;
+}
+
+p{
+	font-family: "Times New Roman";
+	color: #212438;
+	font-size: 20px;
+	border-style: ridge;
+	border-color: #494f9c;
+	border-width: 5px;
+	padding: 20px;
+}

@@ -60,7 +60,7 @@ class_id INT(8) UNSIGNED,
 syllabus TEXT NOT NULL,
 syllabus_type VARCHAR(30) NOT NULL,
 syllabus_size INT NOT NULL,
-syllabus_name VARCHAR(30) NOT NULL,
+syllabus_name VARCHAR(60) NOT NULL,
 reg_date TIMESTAMP
 )";
 

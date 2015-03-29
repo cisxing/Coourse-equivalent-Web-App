@@ -14,20 +14,19 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
 
-$sql = "SELECT name, number, credits, institution,
-mhc_course,
-link, prereq101, prereq201, prereq211, prereq221, prereq_math,
+$sql = "SELECT id, name, number, credits, institution,
+mhc_course, prereq101, prereq201, prereq211, prereq221, prereq_math,
 prof_prereq, notes, day, month, year, professor, approved FROM mhc_equiv_courses";
 $result = $conn->query($sql);
 
 if($result->num_rows >0){	
 	//print all rows of database
 	while($row=$result->fetch_assoc()){
+		echo "id is: " . $row["id"]."<br>";
 		echo "Course Name: " . $row["name"]. "<br>";
 		echo "Course Number: " . $row["number"]."<br>";
 		echo "Number of Credits: " . $row["credits"]."<br>";
 		echo "MHC Equivalent Course: " . $row["mhc_course"] . "<br>";
-		echo "Course Website: " . $row["link"]. "<br>";
 		
 		$mhc_prerequisites = "";
 		if($row["prereq101"]==1){

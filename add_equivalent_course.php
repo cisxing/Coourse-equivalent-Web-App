@@ -1,12 +1,18 @@
 <!DOCTYPE HTML>
 <html> 
 
+<head>
+<link rel="stylesheet" type="text/css" href="style_one.css">
+</head>
+
 <body>
 
+<h1>
+<font size="6">Add a New Course Evaluation</font>
+</h1>
 <form name = "newCourse" action="confirmation_course_added.php" onsubmit = "return checkform()" method="post" enctype="multipart/form-data">
-	<font size="6">Add a New Course Evaluation</font>
-	<br><br>
 	
+	<p>
 	Course Title: <strong><font color="red">*</font></strong>
 		<input type="text" name="courseTitle" required>
 	<br><br>
@@ -55,8 +61,9 @@
 		<input name="userfile[]" type="file" id="userfile" multiple="multiple" required>
 	<br><br>
 	
-	Link to Course Website: <strong><font color="red">*</font></strong> 
+	Link to Course Website: <strong><font color="red">*</font></strong>
 		<input type = "text" name = "website" required>
+		<br>To upload multiple links use CSV.
 	<br><br>
 	
 	MHC Prerequisites: 
@@ -92,7 +99,7 @@
 	<br><br>
 	
 	<input type="submit" name = "form_submit" value="Save">
-	
+	</p>
 </form>
 
 <script>
@@ -132,13 +139,13 @@
 			window.alert("Year must be within the past two years.");
 			return false;
 		}
-		fileName = newCourse.elements["userfile"].value;
+		/**fileName = newCourse.elements["userfile"].value;
 		fileType = fileName.substring(fileName.lastIndexOf(".")+1, fileName.length);
 		if(fileType != "pdf"){
 			window.alert("The file must be a pdf.");
 			return false;
 		}
-		var request;
+		var request;*/
 		/**if(window.XMLHttpRequest){
 			request = new XMLHttpRequest();
 		}
@@ -157,7 +164,6 @@
 	}
 </script>
 
-<br>
 
 <form action="main_page.php" method="post">
 	<input type="submit" value="Cancel">

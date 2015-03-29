@@ -60,7 +60,6 @@ if($valid_mhc_course != true){
 //get pdf
 
 $num_pdfs = count($_FILES['userfile']['name']);
-echo "number of pdfs is: " . $num_pdfs; 
 $syllabus = [];
 $syllabus_size = [];
 $syllabus_type = [];
@@ -147,7 +146,7 @@ if($insert_into_table===1){
 	$cur_value = $row["cur_val"]+1;
 	
 	$sql = "UPDATE counters SET cur_val = " . $cur_value . " where id = 1";
-	makeSqlQuery($conn, $sql, "counters updated");
+	makeSqlQuery($conn, $sql, "");
 	
 	$sql = "INSERT INTO mhc_equiv_courses (id, name, number, credits, institution,
 	mhc_course, prereq101, prereq201, prereq211, prereq221, prereq_math,
@@ -159,10 +158,11 @@ if($insert_into_table===1){
 	$prof_prereq . "', '" . $notes . "', '" . $day . "', '" . $month . "', '" .
 	$year . "', '" . $professor . "', '" . $approved . "')";
 	
-	makeSqlQuery($conn, $sql, "new class created");
+	makeSqlQuery($conn, $sql, "");
 	
 	for($j = 0; $j<$num_pdfs; $j++){
-		$pdf_server_name = "C:/Users/Sarah Read/Desktop/Independent Study/pdf_files/". $cur_value . $j . ".pdf";
+		$file_type = strrchr($syllabus_name[$j], '.');
+		$pdf_server_name = $folder_path. $cur_value . $j . $file_type;
 		
 		$myfile = fopen($pdf_server_name, "w");
 		fwrite($myfile, $syllabus[$j]);
@@ -178,16 +178,17 @@ if($insert_into_table===1){
 			$syllabus_type[$j] . "', " . $syllabus_size[$j] . ", '" . 
 			$syllabus_name[$j] . "')";
 		
-		makeSqlQuery($conn, $sql, "pdf added");
+		makeSqlQuery($conn, $sql, "");
 	}
 	
 	$csv_links = str_getcsv($link);
 	for($k = 0; $k<count($csv_links); $k++){
+		$link_no_spaces = str_replace(' ', '', $csv_links[$k]);
 		$sql = "INSERT INTO mhc_course_links (
 			class_id,
-			link) Values (" . $cur_value . ", '". $csv_links[$k] . "')";
+			link) Values (" . $cur_value . ", '". $link_no_spaces . "')";
 		
-		makeSqlQuery($conn, $sql, "pdf added");
+		makeSqlQuery($conn, $sql, "");
 	}
 	
 	/**
@@ -224,10 +225,20 @@ function fix_input($user_data){
 	return $user_data;
 }
 ?>
+<html> 
 
-<br><br>
+<head>
+<link rel="stylesheet" type="text/css" href="style_one.css">
+</head>
+
+<body>
+
+<h1>
 The following class has been added to the database: 
-<br><br>
+
+</h1>
+
+<p>
 Course Title: <?php echo $_POST["courseTitle"]; ?>
 <br><br>
 Course Number: <?php echo $_POST["courseNumber"]; ?>
@@ -322,12 +333,9 @@ else{
 	echo "The Course Was Not Approved";
 }
 ?>
+</p>
 
-<br><br>
 
-<html> 
-
-<body>
 <!-- Buttons to link to main page or to the details of this page -->
 <form action="main_page.php" method="post">
 	<input type="submit" value="Return to Search Page">
