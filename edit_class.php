@@ -25,8 +25,12 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-$id = 2; 
+$id;
+    if(isset($_GET["data"]))
+    {
+        $id = $_GET["data"];
+        
+    }
 
 $sql = "SELECT name, number, credits, institution,
 mhc_course, prereq101, prereq201, prereq211, prereq221, prereq_math,
