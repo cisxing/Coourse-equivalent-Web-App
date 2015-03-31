@@ -225,7 +225,7 @@ if($row["name"]!=$name){
 }
 //update course number
 if($number != $row["number"]){
-	$sql = "UPDATE mhc_equiv_courses SET number = " . $number . " where id =". $id;
+	$sql = "UPDATE mhc_equiv_courses SET number = '" . $number . "' where id =". $id;
 	makeSqlQuery($conn, $sql, "");
 	echo "Course number has been changed to: " . $number. "<br><br>";
 }

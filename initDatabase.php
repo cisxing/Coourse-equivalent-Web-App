@@ -21,7 +21,7 @@ if ($conn->connect_error) {
 //makeSqlQuery($conn, $sql, "Database deleted successfully");
 
 // Create database
-$sql = "CREATE DATABASE courseEquivalentDB";
+$sql = "CREATE DATABASE courseEquivalentDB1";
 
 makeSqlQuery($conn, $sql, "Database created successfully");
 

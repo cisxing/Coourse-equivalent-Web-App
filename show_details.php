@@ -7,7 +7,10 @@
         $data = $_GET["data"];
         
     }
+    //to go to the edit page
     $url = 'edit_class.php?data='.$data;
+    //to go to the download page
+    $download = 'download_pdf.php?data='.$data;
     mysql_connect('localhost','root','pass123');
 	//select db
 	mysql_select_db('courseEquivalentDB');
@@ -58,7 +61,30 @@
 			echo "Approved: Yes <br>";
 		}
 	}
+	$query1 = sprintf("select * from mhc_course_links where class_id='".$data."'");
+	$record1 = mysql_query($query1);
+	echo "Link: <br>";
+	while ($course1=mysql_fetch_assoc($record1))
+	{
+		//this !== false is deliberate because of the property of strops
+		if (strpos($course1['link'],'http') !== false) {
+  		  echo '<a href="'.$course1['link'].'"> '.$course1['link'].'</a>';
+		}
+		else
+		{
+			echo '<a href="https://'.$course1['link'].'"> '.$course1['link'].'</a>';
+	}
+	echo "<br>";
+	}
+
+	echo "Syllabus attachment: <br>";
 	
+	echo '<a href="./download_pdf.php?data='.$data.'">'."Download All Here".'</a>';
+	
+
+
+
+echo "<br><br>";
 ?>
 
 
@@ -67,10 +93,10 @@
 <body>
 
 <form action="<?php echo $url ?>" method="post">
-	<input type="submit" value="Edit this class">
+	<input type="submit" name = "download" value="Edit this class">
 <form/>
 
-</body>
+
 
 </html>
 	
