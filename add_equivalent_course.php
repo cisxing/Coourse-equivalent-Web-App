@@ -40,6 +40,9 @@
 		<option value = "UMass Amherst">UMass Amherst</option>
 		</select>
 	<br><br>
+	
+	Description: <input type="text" name="description" size = "60">
+	<br><br>
 		
 	MHC Equivalent Course: <strong><font color="red">*</font></strong>
 		<select name="formMHCEquivalent" required>
@@ -56,13 +59,13 @@
 		</select>
 	<br><br>
 	
-	Upload Syllabus: <strong><font color="red">*</font></strong> 
+	Upload Syllabus:
 		<input type="hidden" name="MAX_FILE_SIZE" value="5000000">
-		<input name="userfile[]" type="file" id="userfile" multiple="multiple" required>
+		<input name="userfile[]" type="file" id="userfile" multiple="multiple">
 	<br><br>
 	
-	Link to Course Website: <strong><font color="red">*</font></strong>
-		<input type = "text" name = "website" required>
+	Link to Course Website:
+		<input type = "text" name = "website">
 		<br>To upload multiple links use CSV.
 	<br><br>
 	
@@ -74,7 +77,7 @@
 		<input type="checkbox" name="prereqDescrete" value="true"> MATH 232
 	<br><br>
 	
-	Professor Specified Prerequisites:
+	Other Prerequisites:
 		<input type="text" name="profPrereqs">
 	<br><br>
 	
@@ -82,12 +85,15 @@
 		<textarea type = "text" name = "notes" cols = "40" rows = "5"></textarea>
 	<br><br>
 	
+	<?php 
+	date_default_timezone_set('America/New_York');?>
+	
 	Approval Month: <strong><font color="red">*</font></strong>
-		<input type="text" name="month" maxlength="2" size = "2" required>
+		<input type="text" name="month" maxlength="2" size = "2" required value="<?php echo date('m'); ?>">
 		Day: <strong><font color="red">*</font></strong>
-		<input type="text" name="day" maxlength="2" size = "2" required>
+		<input type="text" name="day" maxlength="2" size = "2" required value="<?php echo date('d'); ?>">
 		Year:<strong><font color="red">*</font></strong>
-		<input type="text" name="year" maxlength="4" size = "4" required>
+		<input type="text" name="year" maxlength="4" size = "4" required value="<?php echo date('Y'); ?>">
 	<br><br>
 	
 	Professor Approving:<strong><font color="red">*</font></strong>

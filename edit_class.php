@@ -14,17 +14,8 @@
 <?php
 include 'global_vars.php';
 
-$servername = "localhost";
-$username = "root";
-$password = "pass123";
-$dbname = "courseEquivalentDB";
+$conn = connectToDatabase();
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 $id;
     if(isset($_GET["data"]))
     {
@@ -32,7 +23,7 @@ $id;
         
     }
 
-$sql = "SELECT name, number, credits, institution,
+$sql = "SELECT name, number, credits, institution, description,
 mhc_course, prereq101, prereq201, prereq211, prereq221, prereq_math,
 prof_prereq, notes, day, month, year, professor, approved FROM mhc_equiv_courses
 Where id=" . $id;
@@ -45,6 +36,7 @@ if($result->num_rows >0){
 		$number = $row["number"];
 		$credits = $row["credits"];
 		$institution = $row["institution"];
+		$description = $row["description"];
 		$mhc_course = $row["mhc_course"];
 		$pre101 = $row["prereq101"];
 		$pre201 = $row["prereq201"];
@@ -124,6 +116,10 @@ if($result->num_rows >0){
 		</select>
 	<br><br>
 		
+	Description: 
+		<input type="text" name="description" value="<?php echo $description; ?>" size="60">
+	<br><br>
+		
 	MHC Equivalent Course: <strong><font color="red">*</font></strong>
 		<select name="formMHCEquivalent" required>
 		<option value = "">Select...</option>
@@ -151,8 +147,8 @@ if($result->num_rows >0){
 		<input name="userfile[]" type="file" id="userfile" multiple="multiple">
 	<br><br>
 	
-	Link to Course Website: <strong><font color="red">*</font></strong>
-		<input type = "text" name = "website" value="<?php echo $all_links; ?>" required>
+	Link to Course Website:
+		<input type = "text" name = "website" value="<?php echo $all_links; ?>">
 		<br>To upload multiple links use CSV.
 	<br><br>
 	
@@ -164,7 +160,7 @@ if($result->num_rows >0){
 		<input type="checkbox" name="prereqDescrete" value="true"<?php if($preMath==1){checkCheckbox();}?>> MATH 232
 	<br><br>
 	
-	Professor Specified Prerequisites:
+	Other Prerequisites:
 		<input type="text" name="profPrereqs" value="<?php echo $profPre; ?>">
 	<br><br>
 	
@@ -229,26 +225,7 @@ if($result->num_rows >0){
 			window.alert("Year must be within the past two years.");
 			return false;
 		}
-		
-		var containsPDF=false;
-		for(i=0; i<editCourse.elements["num_pdfs"].value; i++){
-			if(editCourse.elements["pdf"+i].checked == true){
-				return true;
-			}
-		}
-		if(!containsPDF){
-			var uploaded = document.getElementById("userfile");
-			if('files' in uploaded){
-				if(uploaded.files.length==0){
-					window.alert(
-					"You must have at least 1 file associated with this course.");
-					return false;
-				}
-			}
-		}
-		else{
-			return true;
-		}
+		return true;
 	}
 </script>
 

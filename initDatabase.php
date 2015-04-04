@@ -21,7 +21,7 @@ if ($conn->connect_error) {
 //makeSqlQuery($conn, $sql, "Database deleted successfully");
 
 // Create database
-$sql = "CREATE DATABASE courseEquivalentDB1";
+$sql = "CREATE DATABASE courseEquivalentDB";
 
 makeSqlQuery($conn, $sql, "Database created successfully");
 
@@ -30,12 +30,13 @@ $conn->close();
 $conn = new mysqli($servername, $username, $password, $database);
 
 // sql to create table
-$sql = "CREATE TABLE mhc_equiv_courses (
+$sql = "CREATE TABLE ".$course_db. " (
 id INT(8) UNSIGNED PRIMARY KEY, 
 name VARCHAR(30) NOT NULL,
 number VARCHAR(10) NOT NULL,
 credits INT NOT NULL,
 institution VARCHAR(30) NOT NULL,
+description TEXT NOT NULL,
 mhc_course VARCHAR(20) NOT NULL,
 prereq101 BOOLEAN DEFAULT 0,
 prereq201 BOOLEAN DEFAULT 0,
@@ -54,7 +55,7 @@ reg_date TIMESTAMP
 
 makeSqlQuery($conn, $sql, "mhc_equiv_courses created successfully");
 
-$sql = "CREATE TABLE mhc_course_pdfs(
+$sql = "CREATE TABLE ". $files_db. " (
 id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 class_id INT(8) UNSIGNED,
 syllabus TEXT NOT NULL,
@@ -66,7 +67,7 @@ reg_date TIMESTAMP
 
 makeSqlQuery($conn, $sql, "mhc_course_pdfs created successfully");
 
-$sql = "CREATE TABLE counters(
+$sql = "CREATE TABLE ". $counter_db. " (
 id INT(8) UNSIGNED PRIMARY KEY,
 cur_val INT(8) UNSIGNED)";
 
@@ -76,7 +77,7 @@ $sql = "INSERT INTO counters values (1,1)";
 
 makeSqlQuery($conn, $sql, "insert complete");
 
-$sql = "CREATE TABLE mhc_course_links(
+$sql = "CREATE TABLE " . $link_db. " (
 id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 class_id INT(8) UNSIGNED,
 link TEXT)";

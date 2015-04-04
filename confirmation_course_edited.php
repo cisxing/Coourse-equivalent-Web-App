@@ -9,17 +9,8 @@
 <?php
 include 'global_vars.php';
 
-$servername = "localhost";
-$username = "root";
-$password = "pass123";
-$dbname = "courseEquivalentDB";
+$conn = connectToDatabase();
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
 $name = $_POST["courseTitle"];
 ?>
 
@@ -37,6 +28,7 @@ $number =$_POST["courseNumber"];
 $credits = $_POST["credit"];
 
 $institution = $_POST["formInstitution"];
+$description = $_POST["description"];
 
 $mhc_course = $_POST["formMHCEquivalent"];
 
@@ -210,7 +202,7 @@ for($j=0; $j<count($new_links); $j++){
 }
 
 /****** Update other information******/
-$sql = "SELECT name, number, credits, institution,
+$sql = "SELECT name, number, credits, institution, description,
 mhc_course, prereq101, prereq201, prereq211, prereq221, prereq_math,
 prof_prereq, notes, day, month, year, professor, approved FROM mhc_equiv_courses
 Where id=" . $id;
@@ -225,7 +217,7 @@ if($row["name"]!=$name){
 }
 //update course number
 if($number != $row["number"]){
-	$sql = "UPDATE mhc_equiv_courses SET number = '" . $number . "' where id =". $id;
+	$sql = "UPDATE mhc_equiv_courses SET number = " . $number . " where id =". $id;
 	makeSqlQuery($conn, $sql, "");
 	echo "Course number has been changed to: " . $number. "<br><br>";
 }
@@ -240,6 +232,12 @@ if($institution != $row["institution"]){
 	$sql = "UPDATE mhc_equiv_courses SET institution = '" . $institution. "' where id =". $id;
 	makeSqlQuery($conn, $sql, "");
 	echo "Institution has been changed to: " . $institution. "<br><br>";
+}
+//update description
+if($description != $row["description"]){
+	$sql = "UPDATE mhc_equiv_courses SET description = '" . $description. "' where id =". $id;
+	makeSqlQuery($conn, $sql, "");
+	echo "Description has been changed to: " . $description. "<br><br>";
 }
 //update mhc equivalent course
 if($mhc_course != $row["mhc_course"]){
@@ -256,7 +254,7 @@ if(count($pdfs_delete)>0){
 	echo "<br>";
 }
 
-if(count($number_pdfs)>0){
+if($number_pdfs>0){
 	echo "The following files were added:<br>";
 	for($j = 0; $j<$number_pdfs; $j++){
 		echo $syllabus_name[$j]. "<br>";

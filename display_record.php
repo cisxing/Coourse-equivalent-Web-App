@@ -1,39 +1,30 @@
 <?php
 $name = $_POST["courseTitle"];
-
 $number = $_POST["courseNumber"];
 $institution = $_POST["formInstitution"];
-
 $mhc_course = $_POST["formMHCEquivalent"];
 //make connections
-mysql_connect('localhost','root','pass123');
+mysql_connect('localhost','cis','19931029');
 //select db
 mysql_select_db('courseEquivalentDB');
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
+} 
+if(!isset($_POST["courseTitle"]||$_POST["courseNumber"]||$_POST["formInstitution"]||$_POST["formMHCEquivalent"]))
+{
+	echo Please enter at least one query;
+	//header("Location:index.php")
 }
 
-// $sql= "SELECT * FROM mhc_equiv_courses";
-$query = sprintf("select * from mhc_equiv_courses where number='%s'
-UNION
-select * from mhc_equiv_courses where name='%s'
-UNION
-select * from mhc_equiv_courses where mhc_course='%s'
-UNION
-select * from mhc_equiv_courses where institution='%s'",
-    mysql_real_escape_string($number),
-    mysql_real_escape_string($name),
-    mysql_real_escape_string($mhc_course),
-    mysql_real_escape_string($institution)
-    );
+$sql= "SELECT * FROM mhc_equiv_courses";
+$records = mysql_query($sql);
 
-$records = mysql_query($query);
 
 ?>
 
 
 <html>
-<title>Course lists</title>
+<title>Details</title>
 <body>
 <table width = "1000" border = "1" cellpadding = "1" cellspacing = "1">
 <tr>
@@ -45,7 +36,7 @@ $records = mysql_query($query);
 <th>processing professor</th>
 <th>process date</th>
 <th>approved</th>
-<th>Course Details</th>
+<th>link</th>
 <tr>
 <?php
 while ($course=mysql_fetch_assoc($records)){
@@ -86,12 +77,8 @@ $pre_req = "";
 	else
 	{
 		echo "<td>"."no"."</td>";
-	}	
-	echo '<td><a href="./show_details.php?data='.$course['id'].'">'.Details.'</a></td>';
-
-	//echo '<td><a href="./show_details.php?data='.$course['id']'">'."Details".'</a></td>';
-
-	//example : echo '<a href="'.$link_address.'">Link</a>';
+	}
+	echo '<td><a href="http://'.$course['link'].'">'.link.'</a></td>';
 	
 	echo "<tr>";
 }

@@ -14,17 +14,7 @@ the data was successfully added-->
 <?php
 include 'global_vars.php';
 
-$servername = "localhost";
-$username = "root";
-$password = "pass123";
-$dbname = "courseEquivalentDB";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
+$conn = connectToDatabase();
 
 $insert_into_table = 1;
 
@@ -46,6 +36,8 @@ if($valid_institution != true){
 	$insert_into_table=0;
 }
 
+$description = $_POST["description"];
+
 $mhc_course = $_POST["formMHCEquivalent"];
 $valid_mhc_course = false;
 for($i=0; $i<count($mhc_equiv_courses); $i++){
@@ -60,6 +52,9 @@ if($valid_mhc_course != true){
 //get pdf
 
 $num_pdfs = count($_FILES['userfile']['name']);
+if($_FILES['userfile']['name'][0] == ''){
+	$num_pdfs=0;
+}
 $syllabus = [];
 $syllabus_size = [];
 $syllabus_type = [];
@@ -74,19 +69,6 @@ for($i=0; $i<$num_pdfs; $i++){
 	$syllabus_size[] = $_FILES['userfile']['size'][$i];
 	$syllabus_name[] = fix_input($_FILES['userfile']['name'][$i]);
 }
-
-/**
-$tmpName  = $_FILES['userfile']['tmp_name'];
-$fp = fopen($tmpName, 'r');
-$syllabus = fread($fp, filesize($tmpName));
-$syllabus = addslashes($syllabus);
-fclose($fp);
-$syllabus_type = $_FILES['userfile']['type'];
-$syllabus_size = $_FILES['userfile']['size'];
-$syllabus_name = fix_input($_FILES['userfile']['name']);
-if($syllabus_type != "application/pdf"){
-	$insert_into_table = 0;
-}*/
 
 $link = $_POST["website"];
 $prereq101 = false;
@@ -149,10 +131,10 @@ if($insert_into_table===1){
 	makeSqlQuery($conn, $sql, "");
 	
 	$sql = "INSERT INTO mhc_equiv_courses (id, name, number, credits, institution,
-	mhc_course, prereq101, prereq201, prereq211, prereq221, prereq_math,
+	description, mhc_course, prereq101, prereq201, prereq211, prereq221, prereq_math,
 	prof_prereq, notes, day, month, year, professor, approved)
 	Values (".$cur_value. ",'" . $name . "', '" . $number . "', '" . $credits . "', '" .
-	$institution . "', '" . $mhc_course . "', '"
+	$institution . "', '" . $description . "', '" . $mhc_course . "', '"
 	 . $prereq101 . "', '" . $prereq201 . "', '" .
 	$prereq211 . "', '" . $prereq221 . "', '" . $prereq_math . "', '" .
 	$prof_prereq . "', '" . $notes . "', '" . $day . "', '" . $month . "', '" .
@@ -191,29 +173,9 @@ if($insert_into_table===1){
 		makeSqlQuery($conn, $sql, "");
 	}
 	
-	/**
-	$pdf_index = 
-	
-	echo "The last inserted index is: " . $pdf_index;
-	
-	$sql = mysqli_prepare($conn, "INSERT INTO mhc_equiv_courses (name, number, credits, institution,
-	mhc_course, pdfs,
-	link, prereq101, prereq201, prereq211, prereq221, prereq_math,
-	prof_prereq, notes, day, month, year, professor, approved)
-	Values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-	
-	mysqli_stmt_bind_param($sql, 'ssissssiiiiissiiisi', $name, $number, $credits, 
-		$institution, $mhc_course, $pdf_index,
-		$link, $prereq101, $prereq201, $prereq211, $prereq221, $prereq_math,
-		$prof_prereq, $notes, $day, $month, $year, $professor, $approved);
-	
-	mysqli_stmt_execute($sql);
-	
-	mysqli_stmt_close($sql);*/
-	
 }
 else{
-	echo "wrong type";
+	
 }
 
 $conn->close();
@@ -246,6 +208,8 @@ Course Number: <?php echo $_POST["courseNumber"]; ?>
 Number of Credits: <?php echo $_POST["credit"] . " Credits"; ?>
 <br><br>
 Institution: <?php echo $_POST["formInstitution"]; ?>
+<br><br>
+Description: <?php echo $description; ?>
 <br><br>
 MHC Equivalent Course: 
 <?php 
@@ -337,7 +301,7 @@ else{
 
 
 <!-- Buttons to link to main page or to the details of this page -->
-<form action="search_course.php" method="post">
+<form action="main_page.php" method="post">
 	<input type="submit" value="Return to Search Page">
 <form/>
 

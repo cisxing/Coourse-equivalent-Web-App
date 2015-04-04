@@ -1,22 +1,22 @@
 <!DOCTYPE HTML>
-<head>
-<link rel="stylesheet" type="text/css" href="style_one.css">
-</head>
-
 <?php
+
+$servername = "localhost";
+$username = "cis";
+$password = "19931029";
+$dbname = "courseEquivalentDB";
 
 ?>
 <html> 
  <body style="width: 100%; height: 100%;">
 
-  <div style="left: 35%; position: absolute;">
-        <h1><div><font size="6"; color = "blue", family-font = "ariel">Search For a Course</font>
-	<br>
-	<font size = "2"; color = "red"><i>Please input all of the below to enable searching. The result will give you all the classes with at least one criteria met.</i></font></h1>
-	<br><br>
+  
 <form action="display_record.php" method="post" enctype="multipart/form-data">
-	  
-	<p>
+	  <div style="left: 35%; position: absolute;">
+        <div><font size="6"; color = "blue", family-font = "ariel">Search For a Course</font>
+	<br>
+	<font size = "2"; color = "red"><i>Please at least input one of the below to enable searching.</i></font>
+	<br><br>
 	Course Title: 
 		<input type="text" name="courseTitle" required>
 	<br><br>
@@ -50,19 +50,18 @@
 		<option value = "elect300">CS 300 Elective</option>
 		</select>
 	<br><br>
-	    </p>
+	
 
 
 <div style="width:400px;">
-<div style="float: left; width: 130px">
+<div style="float: left; width: 130px"> 
+<form action="course_result.php" method="post">
     <input type="submit" name = "search" value="Search" >
-
 </form>
 </div>
 <div style="float: right; width: 225px"> 
     <form action="search_course.php" method="post">
-     <input type="submit" name = "search" value="Cancel" >
-
+     <input type="submit" name = "" value="Cancel" >
     </form>
 </div>
 </div>
