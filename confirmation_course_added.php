@@ -301,7 +301,7 @@ else{
 
 
 <!-- Buttons to link to main page or to the details of this page -->
-<form action="main_page.php" method="post">
+<form action="search_course.php" method="post">
 	<input type="submit" value="Return to Search Page">
 <form/>
 

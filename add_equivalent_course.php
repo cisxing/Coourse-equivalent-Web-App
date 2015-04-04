@@ -171,7 +171,7 @@
 </script>
 
 
-<form action="main_page.php" method="post">
+<form action="search_course.php" method="post">
 	<input type="submit" value="Cancel">
 <form/>
 

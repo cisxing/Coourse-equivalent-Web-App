@@ -1,23 +1,27 @@
 <?php
+include 'global_vars.php';
 $name = $_POST["courseTitle"];
 $number = $_POST["courseNumber"];
 $institution = $_POST["formInstitution"];
 $mhc_course = $_POST["formMHCEquivalent"];
-//make connections
-mysql_connect('localhost','cis','19931029');
-//select db
-mysql_select_db('courseEquivalentDB');
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
-if(!isset($_POST["courseTitle"]||$_POST["courseNumber"]||$_POST["formInstitution"]||$_POST["formMHCEquivalent"]))
-{
-	echo Please enter at least one query;
-	//header("Location:index.php")
-}
 
-$sql= "SELECT * FROM mhc_equiv_courses";
-$records = mysql_query($sql);
+$conn = connectToDatabase();
+
+
+$query = sprintf("select * from mhc_equiv_courses where number='%s'
+UNION
+select * from mhc_equiv_courses where name='%s'
+UNION
+select * from mhc_equiv_courses where mhc_course='%s'
+UNION
+select * from mhc_equiv_courses where institution='%s'",
+    $number,
+    $name,
+    $mhc_course,
+    $institution
+    );
+
+$records = $conn->query($query);
 
 
 ?>
@@ -39,7 +43,7 @@ $records = mysql_query($sql);
 <th>link</th>
 <tr>
 <?php
-while ($course=mysql_fetch_assoc($records)){
+while ($course=$records->fetch_assoc()){
 $pre_req = "";
 	echo "<tr>";
 
@@ -78,7 +82,7 @@ $pre_req = "";
 	{
 		echo "<td>"."no"."</td>";
 	}
-	echo '<td><a href="http://'.$course['link'].'">'.link.'</a></td>';
+	echo '<td><a href="./show_details.php?data='.$course['id'].'">'. "Details".'</a></td>';
 	
 	echo "<tr>";
 }

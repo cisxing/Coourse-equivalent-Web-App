@@ -53,15 +53,20 @@ $dbname = "courseEquivalentDB";
 	
 
 
-<div style="width:400px;">
+<div style="width:500px;">
 <div style="float: left; width: 130px"> 
 <form action="course_result.php" method="post">
     <input type="submit" name = "search" value="Search" >
 </form>
 </div>
-<div style="float: right; width: 225px"> 
+<div style="float: center; width: 225px"> 
     <form action="search_course.php" method="post">
      <input type="submit" name = "" value="Cancel" >
+    </form>
+</div>
+<div style="float: right; width: 250px"> 
+    <form action="add_equivalent_course.php" method="post">
+     <input type="submit" name = "" value="Add New Course" >
     </form>
 </div>
 </div>

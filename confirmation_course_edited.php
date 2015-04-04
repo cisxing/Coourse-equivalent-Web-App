@@ -382,8 +382,14 @@ if($approved != $row["approved"]){
 }
 
 ?>
+
 </p>
 
+<form name= "navigation" action="show_details.php" method="get">
+	<input type="hidden" name="data" value="<?php echo $id; ?>">
+	<input type="submit" value="Return to Course Details">
+	<input type="submit" value="Search for a New Class" onclick="navigation.action='search_course.php';return true;">
+<form/>
 
 </body>
 

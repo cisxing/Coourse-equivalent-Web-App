@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <?php
-
+	include 'global_vars.php';
 	$data;
     if(isset($_GET["data"]))
     {
@@ -11,17 +11,13 @@
     $url = 'edit_class.php?data='.$data;
     //to go to the download page
     $download = 'download_pdf.php?data='.$data;
-    mysql_connect('localhost','root','pass123');
-	//select db
-	mysql_select_db('courseEquivalentDB');
-	if ($conn->connect_error) {
-    	die("Connection failed: " . $conn->connect_error);
-	}
+	
+    $conn = connectToDatabase();
 
 	//can not just use the mysql_real_escape_string function because id is required to be a number instead of a string
 	$query = sprintf("select * from mhc_equiv_courses where id='".$data."'");
-	$record = mysql_query($query);
-	while ($course=mysql_fetch_assoc($record)){
+	$record = $conn->query($query);
+	while ($course=$record->fetch_assoc()){
 		//echo "id is: " . $course["id"]."<br>";
 		echo "Course Name: " . $course["name"]. "<br>";
 		echo "Course Number: " . $course["number"]."<br>";
@@ -62,9 +58,9 @@
 		}
 	}
 	$query1 = sprintf("select * from mhc_course_links where class_id='".$data."'");
-	$record1 = mysql_query($query1);
+	$record1 = $conn->query($query1);
 	echo "Link: <br>";
-	while ($course1=mysql_fetch_assoc($record1))
+	while ($course1=$record1->fetch_assoc())
 	{
 		//this !== false is deliberate because of the property of strops
 		if (strpos($course1['link'],'http') !== false) {
