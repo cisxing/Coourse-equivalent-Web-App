@@ -1,4 +1,13 @@
 <!DOCTYPE HTML>
+<head>
+<link rel="stylesheet" type="text/css" href="style_one.css">
+</head>
+
+<h1>
+Course Details
+</h1>
+
+<p>
 <?php
 	include 'global_vars.php';
 	$data;
@@ -83,7 +92,7 @@ echo "<br><br>";
 
 
 <html> 
-
+</p>
 <body>
 
 <form action="<?php echo $url ?>" method="post">

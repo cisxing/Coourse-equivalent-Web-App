@@ -38,8 +38,15 @@ $records = $conn->query($query);
 
 
 <html>
+<head>
+<link rel="stylesheet" type="text/css" href="style_one.css">
+</head>
 <title>Details</title>
+<h1>
+Search Results
+</h1>
 <body>
+<p>
 <table width = "1000" border = "1" cellpadding = "1" cellspacing = "1">
 <tr>
 <th>course name</th>
@@ -100,6 +107,7 @@ $pre_req = "";
 ?>
 
 </table>
+</p>
 </body>
 <br>
 <?php
