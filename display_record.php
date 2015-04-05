@@ -7,7 +7,9 @@ $mhc_course = $_POST["formMHCEquivalent"];
 
 $conn = connectToDatabase();
 
+$do_query= $_POST["do_query"];
 
+if($do_query==1){
 $query = sprintf("select * from mhc_equiv_courses where number='%s'
 UNION
 select * from mhc_equiv_courses where name='%s'
@@ -22,6 +24,13 @@ select * from mhc_equiv_courses where institution='%s'",
     );
 
 $records = $conn->query($query);
+}
+else{
+$query = "SELECT id, name, number, credits, institution,
+mhc_course, prereq101, prereq201, prereq211, prereq221, prereq_math,
+prof_prereq, notes, day, month, year, professor, approved FROM mhc_equiv_courses";
+$records = $conn->query($query);
+}
 
 
 ?>

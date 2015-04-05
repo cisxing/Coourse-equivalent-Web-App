@@ -8,26 +8,27 @@ $dbname = "courseEquivalentDB";
 
 ?>
 <html> 
- <body style="width: 100%; height: 100%;">
+<head>
+<link rel="stylesheet" type="text/css" href="style_one.css">
+</head>
 
   
-<form action="display_record.php" method="post" enctype="multipart/form-data">
-	  <div style="left: 35%; position: absolute;">
-        <div><font size="6"; color = "blue", family-font = "ariel">Search For a Course</font>
-	<br>
+<form name ="search_form" action="display_record.php" method="post" enctype="multipart/form-data">
+    <h1>Search For a Course</h1>
+	<p>
 	<font size = "2"; color = "red"><i>Please at least input one of the below to enable searching.</i></font>
 	<br><br>
 	Course Title: 
-		<input type="text" name="courseTitle" required>
+		<input type="text" name="courseTitle">
 	<br><br>
 		
 	Course Number: 
-		<input type="text" name="courseNumber" required >
+		<input type="text" name="courseNumber">
 	<br><br>
 	
 	
 	Institution: 
-		<select name="formInstitution" required>
+		<select name="formInstitution">
 		<option value = "">Select...</option>
 		<option value = "Amherst">Amherst</option>
 		<option value = "Hampshire">Hampshire</option>
@@ -37,7 +38,7 @@ $dbname = "courseEquivalentDB";
 	<br><br>
 		
 	MHC Equivalent Course: <strong><font color="red">*</font></strong>
-		<select name="formMHCEquivalent" required>
+		<select name="formMHCEquivalent">
 		<option value = "">Select...</option>
 		<option value = "cs101">CS 101</option>
 		<option value = "cs201">CS 201</option>
@@ -50,29 +51,26 @@ $dbname = "courseEquivalentDB";
 		<option value = "elect300">CS 300 Elective</option>
 		</select>
 	<br><br>
+	<input type="hidden" name="do_query" value="1">
+	</p>
+	<div style="width:500px;">
+	<div style="float: left; width: 130px">
+		<input type="submit" name = "search" value="Search" onclick="search_form.do_query.value='1'; return true;">
+	</div>
+	<div style="float: right; width: 225px">
+	<?php
+		echo '<a href="./add_equivalent_course.php"><button type="button">'."Add New Course".'</button></a>';
+	?>
+	</div>
+	<div style="width: 250px">
+		<input type="submit" name = "all" value="View All" onclick="search_form.do_query.value='0'; return true;">
+	</div>
 	
+	</div>
 
-
-<div style="width:500px;">
-<div style="float: left; width: 130px"> 
-<form action="course_result.php" method="post">
-    <input type="submit" name = "search" value="Search" >
 </form>
-</div>
-<div style="float: right; width: 250px"> 
-    <form action="add_equivalent_course.php" method="post">
-     <input type="submit" name = "new_course" value="Add New Course" >
-    </form>
-</div>
-<div style="width: 225px"> 
-    <form action="search_course.php" method="post">
-     <input type="submit" name = "Cancel" value="Cancel" >
-    </form>
-</div>
-</div>
-
-
 
 </body>
 
 </html>
+
