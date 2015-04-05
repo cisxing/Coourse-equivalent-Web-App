@@ -76,8 +76,6 @@
 	echo "Syllabus attachment: <br>";
 	
 	echo '<a href="./download_pdf.php?data='.$data.'">'."Download All Here".'</a>';
-	
-
 
 
 echo "<br><br>";
@@ -89,8 +87,12 @@ echo "<br><br>";
 <body>
 
 <form action="<?php echo $url ?>" method="post">
-	<input type="submit" name = "download" value="Edit this class">
+	<input type="submit" name = "download" value="Edit This Class">
 <form/>
+
+<?php
+	echo '<a href="./delete_course.php?data='.$data.'"><button type="button">'."Delete This Class".'</button</a>';
+?>
 
 
 
