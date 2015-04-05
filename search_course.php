@@ -55,7 +55,7 @@ $dbname = "courseEquivalentDB";
 	</p>
 	<div style="width:500px;">
 	<div style="float: left; width: 130px">
-		<input type="submit" name = "search" value="Search" onclick="search_form.do_query.value='1'; return true;">
+		<input type="submit" name = "search" value="Search" onclick="search_form.do_query.value='1'; return checkform();">
 	</div>
 	<div style="float: right; width: 225px">
 	<?php
@@ -63,7 +63,7 @@ $dbname = "courseEquivalentDB";
 	?>
 	</div>
 	<div style="width: 250px">
-		<input type="submit" name = "all" value="View All" onclick="search_form.do_query.value='0'; return true;">
+		<input type="submit" name = "all" value="View All" onclick="search_form.do_query.value='0'; return checkform();">
 	</div>
 	
 	</div>
@@ -73,4 +73,21 @@ $dbname = "courseEquivalentDB";
 </body>
 
 </html>
+
+<script>
+	function checkform()
+	{
+		if(search_form.elements["do_query"].value=='1'){
+			if(search_form.elements["courseTitle"].value==''&&
+				search_form.elements["courseNumber"].value=='' &&
+				search_form.elements["formMHCEquivalent"].value=='' &&
+				search_form.elements["formInstitution"].value==''){
+				window.alert("You must fill out at least 1 field.");
+				return false;
+			}
+		}
+		return true;
+			
+	}
+</script>
 
