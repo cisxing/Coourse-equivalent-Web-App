@@ -59,14 +59,14 @@ $dbname = "courseEquivalentDB";
     <input type="submit" name = "search" value="Search" >
 </form>
 </div>
-<div style="float: center; width: 225px"> 
-    <form action="search_course.php" method="post">
-     <input type="submit" name = "" value="Cancel" >
-    </form>
-</div>
 <div style="float: right; width: 250px"> 
     <form action="add_equivalent_course.php" method="post">
-     <input type="submit" name = "" value="Add New Course" >
+     <input type="submit" name = "new_course" value="Add New Course" >
+    </form>
+</div>
+<div style="width: 225px"> 
+    <form action="search_course.php" method="post">
+     <input type="submit" name = "Cancel" value="Cancel" >
     </form>
 </div>
 </div>
