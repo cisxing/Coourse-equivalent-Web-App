@@ -16,7 +16,7 @@ select * from mhc_equiv_courses where name='%s'
 UNION
 select * from mhc_equiv_courses where mhc_course='%s'
 UNION
-select * from mhc_equiv_courses where institution='%s'",
+select * from mhc_equiv_courses where institution='%s' Order by institution, name",
     $number,
     $name,
     $mhc_course,
@@ -28,7 +28,8 @@ $records = $conn->query($query);
 else{
 $query = "SELECT id, name, number, credits, institution,
 mhc_course, prereq101, prereq201, prereq211, prereq221, prereq_math,
-prof_prereq, notes, day, month, year, professor, approved FROM mhc_equiv_courses";
+prof_prereq, notes, day, month, year, professor, approved FROM mhc_equiv_courses 
+Order by institution, name";
 $records = $conn->query($query);
 }
 
@@ -98,8 +99,10 @@ $pre_req = "";
 
 ?>
 
-
 </table>
 </body>
-
+<br>
+<?php
+	echo '<a href="./search_course.php"><button type="button">'."Return To Search Page".'</button></a>';
+	?>
 </html>
