@@ -105,6 +105,9 @@
 	<br><br>
 	
 	<input type="submit" name = "form_submit" value="Save">
+	<?php
+	echo '<a href="./search_course.php"><button type="button">'."Cancel".'</button></a>';
+	?>
 	</p>
 </form>
 
@@ -169,11 +172,6 @@
 		return true;*/
 	}
 </script>
-
-
-<form action="search_course.php" method="post">
-	<input type="submit" value="Cancel">
-<form/>
 
 </body>
 

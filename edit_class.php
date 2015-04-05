@@ -85,7 +85,6 @@ if($result->num_rows >0){
 <form name = "editCourse" action="confirmation_course_edited.php" onsubmit = "return checkform()" method="post" enctype="multipart/form-data">
 	
 	<input type="hidden" name="class_id" value="<?php echo $id; ?>">
-	<input type="hidden" name="data" value="<?php echo $id; ?>">
 	<input type="hidden" name="num_pdfs" value="<?php echo count($pdf_arr); ?>">
 	
 	<p>
@@ -186,7 +185,12 @@ if($result->num_rows >0){
 	<br><br>
 	
 	<input type="submit" name = "form_submit" value="Save">
-	<input type="submit" value="Cancel" onclick="editCourse.action='show_details.php';editCourse.method = 'get';return true;">
+	<!--<input type="submit" value="Cancel" onclick="editCourse.action='show_details.php';editCourse.method = 'get';return true;">
+	-->
+	
+	<?php
+	echo '<a href="./show_details.php?data='.$id.'"><button type="button">'."Cancel".'</button></a>';
+	?>
 	</p>
 </form>
 
