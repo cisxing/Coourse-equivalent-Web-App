@@ -29,7 +29,7 @@
 
 <h1>
 <font size="6">Are You Sure You Want To Delete "<?php echo $name;?>"</font>
-</h1>
+
 
 <br>
 
@@ -37,6 +37,7 @@
 echo '<a href="./show_details.php?data='.$data.'"><button type="button">'."No".'</button></a>';
 echo '<a href="./delete_confirmation_page.php?data='.$data.'"><button type="button">'."Yes".'</button></a>';
 ?>
+</h1>
 
 
 

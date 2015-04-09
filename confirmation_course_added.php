@@ -246,7 +246,13 @@ MHC Equivalent Course:
 
 ?>
 <br><br>
-Syllabus: 
+Syllabus: <?php 
+	for($j = 0; $j<$num_pdfs; $j++){
+		echo "<br>" . $syllabus_name[$j];
+		
+	}
+
+?>
 <br><br>
 Link to Course Website: <?php echo $_POST["website"]?>
 <br><br>

@@ -33,13 +33,24 @@ Order by institution, name";
 $records = $conn->query($query);
 }
 
-
-?>
-
-
+if(mysqli_num_rows($records)==0){
+	echo "
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="style_one.css">
+<link rel=\"stylesheet\" type=\"text/css\" href=\"style_one.css\">
+</head>
+<title>Details</title>
+<h1>
+No Results
+</h1>";
+}
+else{
+
+
+echo "
+<html>
+<head>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"style_one.css\">
 </head>
 <title>Details</title>
 <h1>
@@ -47,7 +58,7 @@ Search Results
 </h1>
 <body>
 <p>
-<table width = "1000" border = "1" cellpadding = "1" cellspacing = "1">
+<table width = \"1000\" border = \"1\" cellpadding = \"1\" cellspacing = \"1\">
 <tr>
 <th>course name</th>
 <th>institution</th>
@@ -58,8 +69,8 @@ Search Results
 <th>process date</th>
 <th>approved</th>
 <th>link</th>
-<tr>
-<?php
+<tr>";
+
 while ($course=$records->fetch_assoc()){
 $pre_req = "";
 	echo "<tr>";
@@ -104,12 +115,14 @@ $pre_req = "";
 	echo "<tr>";
 }
 
-?>
 
-</table>
+
+echo"</table>
 </p>
 </body>
-<br>
+<br>";
+}
+?>
 <?php
 	echo '<a href="./search_course.php"><button type="button">'."Return To Search Page".'</button></a>';
 	?>
