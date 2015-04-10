@@ -17,8 +17,8 @@ if ($conn->connect_error) {
 } 
 
 //Drop database
-//$sql = "DROP database courseEquivalentDB";
-//makeSqlQuery($conn, $sql, "Database deleted successfully");
+$sql = "DROP database courseEquivalentDB";
+makeSqlQuery($conn, $sql, "Database deleted successfully");
 
 // Create database
 $sql = "CREATE DATABASE courseEquivalentDB";

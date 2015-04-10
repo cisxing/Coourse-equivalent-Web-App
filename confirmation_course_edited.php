@@ -135,6 +135,7 @@ for($j = 0; $j<$number_pdfs; $j++){
 		fwrite($myfile, $syllabus[$j]);
 		fclose($myfile);
 		
+		//move_uploaded_file ( string $filename , string $folder_path );
 		//save to database
 		$sql = "INSERT INTO mhc_course_pdfs (
 			class_id,

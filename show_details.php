@@ -11,6 +11,7 @@ Course Details
 <?php
 	include 'global_vars.php';
 	$data;
+	//$pdfData;
     if(isset($_GET["data"]))
     {
         $data = $_GET["data"];
@@ -72,7 +73,7 @@ Course Details
 	while ($course1=$record1->fetch_assoc())
 	{
 		//this !== false is deliberate because of the property of strops
-		if (strpos($course1['link'],'http') !== false) {
+		if (strpos($course1['link'],'https') !== false) {
   		  echo '<a href="'.$course1['link'].'"> '.$course1['link'].'</a>';
 		}
 		else
@@ -83,9 +84,15 @@ Course Details
 	}
 
 	echo "Syllabus attachment: <br>";
-	
-	echo '<a href="./download_pdf.php?data='.$data.'">'."Download All Here".'</a>';
-
+	//echo '<a href="./download_pdf.php?data='.$data.'&type=0">'Download All'</a>';
+	$query2 = sprintf("select * from mhc_course_pdfs where class_id ='".$data."'");
+	$gotten = $conn->query($query2);
+	while ($row=$gotten->fetch_assoc())
+	{
+		echo '<a href="./download_pdf.php?data='.$row['id'].'">'.$row['syllabus_name'].'</a>';
+		echo '<br>';
+	}	
+	echo '<a href="./download_pdf_all.php?data='.$data.'">Download All</a>';
 
 echo "<br><br>";
 ?>
