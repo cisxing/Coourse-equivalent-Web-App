@@ -16,6 +16,10 @@
 	Course Title: <strong><font color="red">*</font></strong>
 		<input type="text" name="courseTitle" required>
 	<br><br>
+	
+	Department: <strong><font color="red">*</font></strong>
+		<input type="text" name="department" required>
+	<br><br>
 		
 	Course Number: <strong><font color="red">*</font></strong>
 		<input type="text" name="courseNumber" required >
@@ -138,6 +142,11 @@
 		
 		if(isNaN(newCourse.elements["year"].value)){
 			window.alert("Year must be an integer value.");
+			return false;
+		}
+		
+		if(isNaN(newCourse.elements["courseNumber"].value)){
+			window.alert("Course Number must be an integer value.");
 			return false;
 		}
 		

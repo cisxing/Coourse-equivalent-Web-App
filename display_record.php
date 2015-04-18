@@ -5,6 +5,23 @@ $number = $_POST["courseNumber"];
 $institution = $_POST["formInstitution"];
 $mhc_course = $_POST["formMHCEquivalent"];
 
+$sort_one = $_POST["first_sort"];
+$sort_two = $_POST["second_sort"];
+$sort_three = $_POST["third_sort"];
+echo "sort by: " . $sort_one . " and by: " . $sort_two;
+$sort_by = "";
+if($sort_one!=""){
+	$sort_by = $sort_one;
+	if($sort_two!=""){
+		$sort_by = $sort_by . ", " . $sort_two;
+		if($sort_three!=""){
+			$sort_by = $sort_by . ", " . $sort_three;
+		}
+	}
+}
+else{
+	$sort_by = "institution";
+}
 $conn = connectToDatabase();
 
 $do_query= $_POST["do_query"];
@@ -16,7 +33,7 @@ select * from mhc_equiv_courses where name='%s'
 UNION
 select * from mhc_equiv_courses where mhc_course='%s'
 UNION
-select * from mhc_equiv_courses where institution='%s' Order by institution, name",
+select * from mhc_equiv_courses where institution='%s' Order by " . $sort_by,
     $number,
     $name,
     $mhc_course,
@@ -26,7 +43,7 @@ select * from mhc_equiv_courses where institution='%s' Order by institution, nam
 $records = $conn->query($query);
 }
 else{
-$query = "SELECT id, name, number, credits, institution,
+$query = "SELECT id, name, department, number, credits, institution,
 mhc_course, prereq101, prereq201, prereq211, prereq221, prereq_math,
 prof_prereq, notes, day, month, year, professor, approved FROM mhc_equiv_courses 
 Order by institution, name";
@@ -57,18 +74,18 @@ echo "
 Search Results
 </h1>
 <body>
-<p>
 <table width = \"1000\" border = \"1\" cellpadding = \"1\" cellspacing = \"1\">
 <tr>
-<th>course name</th>
-<th>institution</th>
-<th>credits</th>
-<th>equivalent mhc course</th>
-<th>pre req</th>
-<th>processing professor</th>
-<th>process date</th>
-<th>approved</th>
-<th>link</th>
+<th>Course Name</th>
+<th>Institution</th>
+<th>Course Number</th>
+<th>Credits</th>
+<th>Equivalent MHC Course</th>
+<th>Prerequisite</th>
+<th>Processing Professor</th>
+<th>Process Date</th>
+<th>Approved</th>
+<th>Link</th>
 <tr>";
 
 while ($course=$records->fetch_assoc()){
@@ -77,28 +94,32 @@ $pre_req = "";
 
 	echo "<td>".$course['name']."</td>";
 	echo "<td>".$course['institution']."</td>";
+	echo "<td>".$course['department']. " " .$course['number']."</td>";
 	echo "<td>".$course['credits']."</td>";
 	echo "<td>".$course['mhc_course']."</td>";
 	if($course['prereq101']==1)
 	{
-		$pre_req= $pre_req."cs101";
+		$pre_req= $pre_req."cs101, ";
 	}
 	if($course['prereq201']==1)
 	{
-		$pre_req= $pre_req.",cs201";
+		$pre_req= $pre_req."cs201, ";
 	}
 	if($course['prereq211']==1)
 	{
-		$pre_req= $pre_req.",cs211";
+		$pre_req= $pre_req."cs211, ";
 	}
 	if($course['prereq221']==1)
 	{
-		$pre_req= $pre_req.",cs221";
+		$pre_req= $pre_req."cs221, ";
 	}
 	if($course['prereq_math']==1)
 	{
-		$pre_req= $pre_req.",Discrete Math";
+		$pre_req= $pre_req."Discrete Math, ";
 	}
+	if(strlen($pre_req)>0){
+			$pre_req = substr($pre_req, 0, strlen($pre_req)-2);
+		}
 	echo "<td>".$pre_req."</td>";
 	echo "<td>".$course['professor']."</td>";
 	echo "<td>".$course['month'].".".$course['day'].".".$course['year']."</td>";
@@ -118,7 +139,6 @@ $pre_req = "";
 
 
 echo"</table>
-</p>
 </body>
 <br>";
 }

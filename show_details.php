@@ -30,24 +30,25 @@ Course Details
 	while ($course=$record->fetch_assoc()){
 		//echo "id is: " . $course["id"]."<br>";
 		echo "Course Name: " . $course["name"]. "<br>";
+		echo "Department: " . $course["department"]. "<br>";
 		echo "Course Number: " . $course["number"]."<br>";
 		echo "Number of Credits: " . $course["credits"]."<br>";
 		echo "MHC Equivalent Course: " . $course["mhc_course"] . "<br>";
 		$mhc_prerequisites = "";
 		if($course["prereq101"]==1){
-			$mhc_prerequisites = $mhc_prerequisites + "CS 101, ";
+			$mhc_prerequisites = $mhc_prerequisites . "CS 101, ";
 		}
 		if($course["prereq201"]==1){
-			$mhc_prerequisites = $mhc_prerequisites + "CS 201, ";
+			$mhc_prerequisites = $mhc_prerequisites . "CS 201, ";
 		}
 		if($course["prereq211"]==1){
-			$mhc_prerequisites = $mhc_prerequisites + "CS 211, ";
+			$mhc_prerequisites = $mhc_prerequisites . "CS 211, ";
 		}
 		if($course["prereq221"]==1){
-			$mhc_prerequisites = $mhc_prerequisites + "CS 221, ";
+			$mhc_prerequisites = $mhc_prerequisites . "CS 221, ";
 		}
 		if($course["prereq_math"]==1){
-			$mhc_prerequisites = $mhc_prerequisites + "MATH 232, ";
+			$mhc_prerequisites = $mhc_prerequisites . "MATH 232, ";
 		}
 		if(strlen($mhc_prerequisites)>0){
 			$mhc_prerequisites = substr($mhc_prerequisites, 0, strlen($mhc_prerequisites)-2);
@@ -107,9 +108,9 @@ echo "<br><br>";
 <form/>
 
 <?php
-	echo '<a href="./delete_course.php?data='.$data.'"><button type="button">'."Delete This Class".'</button</a>';
+	echo '<a href="./delete_course.php?data='.$data.'"><button type="button">'."Delete This Class".'</button></a>';
+	echo '<a href="./search_course.php"><button type="button">'."Return to Search Page".'</button></a>';
 ?>
-
 
 
 </html>

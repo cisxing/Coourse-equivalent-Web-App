@@ -33,6 +33,7 @@ $conn = new mysqli($servername, $username, $password, $database);
 $sql = "CREATE TABLE ".$course_db. " (
 id INT(8) UNSIGNED PRIMARY KEY, 
 name VARCHAR(30) NOT NULL,
+department VARCHAR(50) NOT NULL,
 number VARCHAR(10) NOT NULL,
 credits INT NOT NULL,
 institution VARCHAR(30) NOT NULL,

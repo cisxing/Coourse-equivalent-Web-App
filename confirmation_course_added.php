@@ -20,6 +20,7 @@ $insert_into_table = 1;
 
 $name = fix_input($_POST["courseTitle"]);
 $number =fix_input($_POST["courseNumber"]);
+$department = $_POST["department"];
 $credits = $_POST["credit"];
 if($credits!= 2 && $credits!=4){
 	$insert_into_table=0;
@@ -130,10 +131,10 @@ if($insert_into_table===1){
 	$sql = "UPDATE counters SET cur_val = " . $cur_value . " where id = 1";
 	makeSqlQuery($conn, $sql, "");
 	
-	$sql = "INSERT INTO mhc_equiv_courses (id, name, number, credits, institution,
+	$sql = "INSERT INTO mhc_equiv_courses (id, name, department, number, credits, institution,
 	description, mhc_course, prereq101, prereq201, prereq211, prereq221, prereq_math,
 	prof_prereq, notes, day, month, year, professor, approved)
-	Values (".$cur_value. ",'" . $name . "', '" . $number . "', '" . $credits . "', '" .
+	Values (".$cur_value. ",'" . $name . "', '". $department . "', '" . $number . "', '" . $credits . "', '" .
 	$institution . "', '" . $description . "', '" . $mhc_course . "', '"
 	 . $prereq101 . "', '" . $prereq201 . "', '" .
 	$prereq211 . "', '" . $prereq221 . "', '" . $prereq_math . "', '" .
@@ -202,6 +203,8 @@ The following class has been added to the database:
 
 <p>
 Course Title: <?php echo $_POST["courseTitle"]; ?>
+<br><br>
+Department: <?php echo $_POST["department"]; ?>
 <br><br>
 Course Number: <?php echo $_POST["courseNumber"]; ?>
 <br><br>

@@ -23,7 +23,7 @@ $id;
         
     }
 
-$sql = "SELECT name, number, credits, institution, description,
+$sql = "SELECT name, department, number, credits, institution, description,
 mhc_course, prereq101, prereq201, prereq211, prereq221, prereq_math,
 prof_prereq, notes, day, month, year, professor, approved FROM mhc_equiv_courses
 Where id=" . $id;
@@ -33,6 +33,7 @@ if($result->num_rows >0){
 	//print all rows of database
 	while($row=$result->fetch_assoc()){
 		$name = $row["name"];
+		$department = $row["department"];
 		$number = $row["number"];
 		$credits = $row["credits"];
 		$institution = $row["institution"];
@@ -90,6 +91,10 @@ if($result->num_rows >0){
 	<p>
 	Course Title: <strong><font color="red">*</font></strong>
 		<input type="text" name="courseTitle" value="<?php echo $name; ?>" required>
+	<br><br>
+		
+	Department: <strong><font color="red">*</font></strong>
+		<input type="text" name="department" value="<?php echo $department; ?>" required>
 	<br><br>
 		
 	Course Number: <strong><font color="red">*</font></strong>

@@ -24,6 +24,7 @@ Changes Made to "<?php echo $name;?>"
 
 $id = $_POST["class_id"];
 
+$department = $_POST["department"];
 $number =$_POST["courseNumber"];
 $credits = $_POST["credit"];
 
@@ -203,7 +204,7 @@ for($j=0; $j<count($new_links); $j++){
 }
 
 /****** Update other information******/
-$sql = "SELECT name, number, credits, institution, description,
+$sql = "SELECT name, department, number, credits, institution, description,
 mhc_course, prereq101, prereq201, prereq211, prereq221, prereq_math,
 prof_prereq, notes, day, month, year, professor, approved FROM mhc_equiv_courses
 Where id=" . $id;
@@ -215,6 +216,12 @@ if($row["name"]!=$name){
 	$sql = "UPDATE mhc_equiv_courses SET name = '" . $name . "' where id =". $id;
 	makeSqlQuery($conn, $sql, "");
 	echo "Course name was changed to: " . $name. "<br><br>";
+}
+//update department
+if($row["department"]!=$department){
+	$sql = "UPDATE mhc_equiv_courses SET department = '" . $department . "' where id =". $id;
+	makeSqlQuery($conn, $sql, "");
+	echo "Department was changed to: " . $department. "<br><br>";
 }
 //update course number
 if($number != $row["number"]){
