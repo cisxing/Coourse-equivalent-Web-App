@@ -8,7 +8,6 @@ $mhc_course = $_POST["formMHCEquivalent"];
 $sort_one = $_POST["first_sort"];
 $sort_two = $_POST["second_sort"];
 $sort_three = $_POST["third_sort"];
-echo "sort by: " . $sort_one . " and by: " . $sort_two;
 $sort_by = "";
 if($sort_one!=""){
 	$sort_by = $sort_one;
@@ -24,16 +23,26 @@ else{
 }
 $conn = connectToDatabase();
 
+$credit_include = $_POST["credit_include"]; 
+
+$choose_by_credits = "";
+if($credit_include=="two_credits"){
+	$choose_by_credits = "and credits = '2' "; 
+}
+if($credit_include=="four_credits"){
+	$choose_by_credits = "and credits = '4' "; 
+}
+
 $do_query= $_POST["do_query"];
 
 if($do_query==1){
-$query = sprintf("select * from mhc_equiv_courses where number='%s'
+$query = sprintf("select * from mhc_equiv_courses where number='%s' ". $choose_by_credits ." 
 UNION
-select * from mhc_equiv_courses where name='%s'
+select * from mhc_equiv_courses where name='%s' ". $choose_by_credits ." 
 UNION
-select * from mhc_equiv_courses where mhc_course='%s'
+select * from mhc_equiv_courses where mhc_course='%s' ". $choose_by_credits ." 
 UNION
-select * from mhc_equiv_courses where institution='%s' Order by " . $sort_by,
+select * from mhc_equiv_courses where institution='%s' ". $choose_by_credits ." Order by " . $sort_by,
     $number,
     $name,
     $mhc_course,
@@ -89,7 +98,7 @@ Search Results
 <tr>";
 
 while ($course=$records->fetch_assoc()){
-$pre_req = "";
+	$pre_req = "";
 	echo "<tr>";
 
 	echo "<td>".$course['name']."</td>";

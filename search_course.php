@@ -29,7 +29,6 @@ $sort_by_array_val = array("", "institution", "name","number");
 		<input type="text" name="courseNumber">
 	<br><br>
 	
-	
 	Institution: 
 		<select name="formInstitution">
 		<option value = "">Select...</option>
@@ -82,6 +81,17 @@ $sort_by_array_val = array("", "institution", "name","number");
 	<input type="button" id = "reset_sort" value= "Reset Sort Values" onclick="onChangeDropdown(0)">
 
 <br><br>
+
+	Include: 
+	<input type="radio" name="credit_include"
+	<?php if (isset($credit_include) && $credit_include=="two_cred") echo "checked";?>
+	value="two_credits">2 Credit Courses
+	<input type="radio" name="credit_include"
+	<?php if (isset($credit_include) && $credit_include=="four_cred") echo "checked";?>
+	value="four_credits">4 Credit Courses
+	<input type="radio" name="credit_include"
+	<?php if (isset($credit_include) && $credit_include=="both") echo "checked";?>
+	value="both" checked>All Courses
 	
 	</p>
 	<div style="width:500px;">
