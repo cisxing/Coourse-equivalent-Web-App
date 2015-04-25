@@ -229,6 +229,11 @@ if($result->num_rows >0){
 			return false;
 		}
 		
+		if(isNaN(editCourse.elements["courseNumber"].value)){
+			window.alert("Course Number must be an integer value.");
+			return false;
+		}
+		
 		var curDate = new Date();
 		var curYear = curDate.getFullYear();
 		var yearInt = parseInt(editCourse.elements["year"].value);

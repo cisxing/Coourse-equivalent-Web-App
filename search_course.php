@@ -39,7 +39,7 @@ $sort_by_array_val = array("", "institution", "name","number");
 		</select>
 	<br><br>
 		
-	MHC Equivalent Course: <strong><font color="red">*</font></strong>
+	MHC Equivalent Course:
 		<select name="formMHCEquivalent">
 		<option value = "">Select...</option>
 		<option value = "cs101">CS 101</option>

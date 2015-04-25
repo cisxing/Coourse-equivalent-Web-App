@@ -17,8 +17,8 @@ if ($conn->connect_error) {
 } 
 
 //Drop database
-$sql = "DROP database courseEquivalentDB";
-makeSqlQuery($conn, $sql, "Database deleted successfully");
+//$sql = "DROP database courseEquivalentDB";
+//makeSqlQuery($conn, $sql, "Database deleted successfully");
 
 // Create database
 $sql = "CREATE DATABASE courseEquivalentDB";
@@ -32,7 +32,7 @@ $conn = new mysqli($servername, $username, $password, $database);
 // sql to create table
 $sql = "CREATE TABLE ".$course_db. " (
 id INT(8) UNSIGNED PRIMARY KEY, 
-name VARCHAR(30) NOT NULL,
+name VARCHAR(60) NOT NULL,
 department VARCHAR(50) NOT NULL,
 number VARCHAR(10) NOT NULL,
 credits INT NOT NULL,
@@ -49,7 +49,7 @@ notes TEXT NOT NULL,
 day SMALLINT NOT NULL,
 month SMALLINT NOT NULL,
 year SMALLINT NOT NULL,
-professor VARCHAR(20) NOT NULL,
+professor VARCHAR(40) NOT NULL,
 approved BOOLEAN DEFAULT 0,
 reg_date TIMESTAMP
 )";
